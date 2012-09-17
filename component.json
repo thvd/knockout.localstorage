@@ -1,6 +1,6 @@
 {
 	"name": "knockout.localstorage",
-	"version": "v1.0",
+	"version": "1.0.0",
 	"main": "./knockout.localstorage.js",
 	"dependencies": {
 		"jquery": "~1.8.1",
