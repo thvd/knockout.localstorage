@@ -6,17 +6,19 @@ define(['jquery', 'knockout', 'knockout.mapping'], function($, ko, mapping) {
 				properties = {};
 			}
 
+			var value;
+
+			// Get the initial observable value.
+			var fromLocalStorage = window.localStorage[key];
+			if (undefined === fromLocalStorage) {
+				value = properties.defaultValue;
+				window.localStorage[key] = value;
+			} else {
+				value = ko.utils.parseJson(fromLocalStorage);
+			}
+
 			// Construct the observable.
-			var observable = ko.observable((function() {
-				// Get the initial observable value.
-				var fromLocalStorage = window.localStorage[key];
-				if (undefined === fromLocalStorage) {
-					var defaultValue = properties.defaultValue;
-					window.localStorage[key] = defaultValue;
-					return defaultValue;
-				}
-				return ko.utils.parseJson(fromLocalStorage);
-			}) ());
+			var observable = ko.observable(value);
 			observable.subscribe(function(newValue) {
 				// On change, write the new value to the localStorage.
 				window.localStorage[key] = ko.toJSON(newValue);
